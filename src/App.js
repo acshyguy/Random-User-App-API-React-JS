@@ -1,25 +1,47 @@
-import logo from './logo.svg';
 import './App.css';
+import { random } from './api/random';
+import React, {useState,useEffect} from 'react'
+import Search from './component/Search';
+import User from './component/User';
 
-function App() {
+
+const App = () => {
+
+  const [searchTerm, setSearchTerm] = useState("")
+  const [images, setImages] = useState([])
+  
+
+  // useEffect(() => {
+  //   const getUsers = async () =>{
+  //     let users = await random.get('/?results=24');
+      
+  //     setImages(users.data.results);
+  //     console.log(users.data.results)
+  //   }
+  //   getUsers();
+    
+  // },[searchTerm])
+
+
+  useEffect(() => {
+    const getUsers = async () =>{
+      let users = await random.get('/?results=24');
+      // let users = await random.get('/?gender=female');
+      
+      setImages(users.data.results);
+      console.log(users.data.results)
+    }
+    getUsers();
+    
+  },[searchTerm])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Search getSearchTerm={setSearchTerm}/>
+      <User images={images}/>
+    
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
